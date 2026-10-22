@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeBoxApi.Data;
 using RecipeBoxApi.Models;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace RecipeBoxApi.Controllers
 {
