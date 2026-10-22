@@ -1,29 +1,45 @@
 
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using RecipeBoxApi.Data;
 using RecipeBoxApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// React URL in production, localhost during development
+var frontendUrl = builder.Configuration["FrontendUrl"];
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        var allowedOrigins = new List<string>
+        {
+            "http://localhost:5173"
+        };
+
+        if (!string.IsNullOrWhiteSpace(frontendUrl))
+        {
+            allowedOrigins.Add(frontendUrl.TrimEnd('/'));
+        }
+
+        policy.WithOrigins(allowedOrigins.ToArray())
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
     });
 });
 
+// PostgreSQL / Neon
 builder.Services.AddDbContext<RecipeDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
 
+// Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     {
         options.Password.RequiredLength = 8;
@@ -36,12 +52,14 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<RecipeDbContext>()
     .AddDefaultTokenProviders();
 
+// Cookies
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = "RecipeBox.Auth";
     options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 
     options.Events.OnRedirectToLogin = context =>
     {
@@ -56,19 +74,31 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
+// CSRF protection
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-TOKEN";
     options.Cookie.Name = "RecipeBox.Csrf";
     options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddOpenApi();
 
+// Render terminates HTTPS at its proxy
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto;
+});
+
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 app.UseCors("ReactApp");
 
@@ -77,12 +107,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// React requests an antiforgery token before modifying data.
 app.MapGet("/api/csrf-token", (
     HttpContext context,
     IAntiforgery antiforgery) =>
@@ -98,4 +130,5 @@ app.MapGet("/api/csrf-token", (
 });
 
 app.MapControllers();
+
 app.Run();
