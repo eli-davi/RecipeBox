@@ -27,7 +27,7 @@ type AuthContextType = {
   logout: () => Promise<void>;
 };
 
-const API = "http://localhost:5232/api/auth";
+const API = `${import.meta.env.VITE_API_URL ?? "http://localhost:5232"}/api/auth`;
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

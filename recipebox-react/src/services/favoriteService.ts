@@ -1,6 +1,6 @@
 
 import { getCsrfToken } from "./csrfService";
-const API_URL = "http://localhost:5232/api/favorites";
+const API_URL = `${import.meta.env.VITE_API_URL ?? "http://localhost:5232"}/api/favorites`;
 
 async function checkResponse(response: Response) {
   if (!response.ok) {

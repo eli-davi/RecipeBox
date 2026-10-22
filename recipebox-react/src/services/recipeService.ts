@@ -1,7 +1,7 @@
 
 import type { Recipe } from "../types/Recipe";
 
-const API_URL = "http://localhost:5232/api/recipes";
+const API_URL = `${import.meta.env.VITE_API_URL ?? "http://localhost:5232"}/api/favorites`;
 
 // קבלת כל המתכונים
 export async function getRecipes(): Promise<Recipe[]> {
