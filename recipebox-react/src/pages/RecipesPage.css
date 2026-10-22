@@ -1,0 +1,400 @@
+
+.recipesPage {
+  padding: 45px 6% 80px;
+  min-height: calc(100vh - 90px);
+  background: #fffaf5;
+  font-family: Arial, sans-serif;
+  color: #40342e;
+}
+
+.recipesPage h1 {
+  color: #7b4535;
+  font-size: clamp(28px, 4vw, 38px);
+  margin-bottom: 14px;
+}
+
+.recipesPage h2 {
+  color: #7b4535;
+  margin-top: 30px;
+}
+
+.recipesPage > p {
+  color: #75665e;
+  line-height: 1.8;
+}
+
+.recipesPage > a {
+  display: inline-block;
+  color: #a45c40;
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.recipesPage > a:hover {
+  text-decoration: underline;
+}
+
+/* Search and filters */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 30px 0;
+  padding: 20px;
+  background: white;
+  border: 1px solid #f0e2d7;
+  border-radius: 14px;
+  box-shadow: 0 3px 14px rgba(60, 40, 25, 0.04);
+}
+
+.filters input,
+.filters select {
+  padding: 13px 15px;
+  border: 1px solid #dfd2c8;
+  border-radius: 9px;
+  font-size: 16px;
+  background: #fff;
+  color: #40342e;
+}
+
+.filters input {
+  width: 320px;
+  max-width: 100%;
+}
+
+.filters select {
+  min-width: 180px;
+}
+
+/* Recipe cards */
+
+.recipesGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 260px), 1fr)
+  );
+  gap: 25px;
+}
+
+.recipeCard {
+  display: block;
+  background: white;
+  border: 1px solid #f0e5dc;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 16px rgba(67, 42, 30, 0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recipeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(67, 42, 30, 0.14);
+}
+
+.recipeCard img {
+  display: block;
+  width: 100%;
+  height: 205px;
+  object-fit: cover;
+  background: #f3e7dc;
+}
+
+.recipeContent {
+  padding: 22px;
+}
+
+.recipeContent h3 {
+  color: #a45c40;
+  font-size: 21px;
+  margin: 0 0 12px;
+}
+
+.recipeContent p {
+  color: #75665e;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 7px 0;
+}
+
+/* Forms */
+
+.recipeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+  padding: 28px;
+  background: white;
+  border: 1px solid #f0e2d7;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(67, 42, 30, 0.06);
+}
+
+.recipeForm label {
+  font-weight: bold;
+  color: #7b4535;
+  margin-top: 6px;
+}
+
+.recipeForm input,
+.recipeForm select,
+.recipeForm textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #dfd2c8;
+  border-radius: 9px;
+  font-size: 16px;
+  font-family: inherit;
+  background: #fff;
+  color: #40342e;
+}
+
+.recipeForm textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.recipeForm input:focus,
+.recipeForm select:focus,
+.recipeForm textarea:focus,
+.filters input:focus,
+.filters select:focus {
+  outline: 2px solid #c58a6a;
+  outline-offset: 1px;
+  border-color: #c58a6a;
+}
+
+.recipeForm button {
+  background: #a45c40;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.recipeForm button:hover:not(:disabled) {
+  background: #86452e;
+}
+
+.recipeForm button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #b42318;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Edit and delete actions */
+
+.recipeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.editButton,
+.deleteButton {
+  display: inline-block;
+  padding: 13px 24px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  text-align: center;
+}
+
+.editButton {
+  background: #a45c40;
+  color: white;
+}
+
+.deleteButton {
+  background: #c74640;
+  color: white;
+}
+
+.editButton:hover {
+  background: #86452e;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: #a9322d;
+}
+
+.deleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.recipeCard:focus-visible,
+.editButton:focus-visible,
+.deleteButton:focus-visible,
+.recipeForm button:focus-visible {
+  outline: 3px solid #c58a6a;
+  outline-offset: 3px;
+}
+
+/* Ingredients */
+
+.recipesPage ul {
+  line-height: 2;
+  padding-right: 25px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .recipesPage {
+    padding: 30px 5% 60px;
+  }
+
+  .filters {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .recipeForm {
+    padding: 20px;
+  }
+
+  .recipesGrid {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipesPage {
+    padding: 25px 16px 50px;
+  }
+
+  .recipeContent {
+    padding: 17px;
+  }
+
+  .recipeActions {
+    flex-direction: column;
+  }
+
+  .editButton,
+  .deleteButton {
+    width: 100%;
+  }
+
+  .recipeForm {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipeCard,
+  .mainButton {
+    transition: none;
+  }
+}
+
+.recipesPage > p a {
+  color: #a45c40;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+/* Recipe filters */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0 15px;
+}
+
+.filters input,
+.filters select {
+  flex: 1 1 190px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #d8c8b8;
+  border-radius: 10px;
+  background: #fff;
+  color: #49372c;
+  font: inherit;
+}
+
+.filters input:focus,
+.filters select:focus {
+  outline: 2px solid #ad8264;
+  outline-offset: 1px;
+}
+
+.resetFiltersButton,
+.noRecipes button {
+  padding: 12px 18px;
+  background: #76513b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.resetFiltersButton:hover,
+.noRecipes button:hover {
+  background: #5e3e2b;
+}
+
+.recipesCount {
+  margin: 15px 0 20px;
+  font-weight: 600;
+  color: #76513b;
+}
+
+.noRecipes {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.noRecipes button {
+  margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters input,
+  .filters select {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .resetFiltersButton {
+    width: 100%;
+  }
+}
